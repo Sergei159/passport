@@ -2,6 +2,6 @@ create table if not exists passport(
   id serial primary key,
   series int,
   number int,
-  created timestamp,
+  expired timestamp,
   unique (series, number)
 );

@@ -5,7 +5,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import ru.job4j.passport.handlers.Operation;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -32,13 +31,13 @@ public class Passport {
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private Calendar created;
+    private Calendar expired;
 
-    public static Passport of(int series, int number, Calendar created) {
+    public static Passport of(int series, int number, Calendar expired) {
         Passport passport = new Passport();
         passport.series = series;
         passport.number = number;
-        passport.created = created;
+        passport.expired = expired;
         return  passport;
     }
 
@@ -66,12 +65,12 @@ public class Passport {
         this.number = number;
     }
 
-    public Calendar getCreated() {
-        return created;
+    public Calendar getExpired() {
+        return expired;
     }
 
-    public void setCreated(Calendar created) {
-        this.created = created;
+    public void setExpired(Calendar expired) {
+        this.expired = expired;
     }
 
     @Override

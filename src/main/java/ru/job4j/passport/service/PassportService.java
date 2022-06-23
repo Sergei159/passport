@@ -14,7 +14,6 @@ public class PassportService {
 
     private final PassportRepository repository;
 
-    public static final int PASSPORT_VALIDITY_PERIOD = 20;
     public static final int PASSPORT_TO_CHANGE_PERIOD = 3;
 
     public PassportService(PassportRepository repository) {
@@ -56,6 +55,7 @@ public class PassportService {
         boolean result = false;
         Optional<Passport> optionalPassport = findById(id);
         if (optionalPassport.isPresent()) {
+            passport.setId(id);
             repository.save(passport);
             result = true;
         }
@@ -63,17 +63,19 @@ public class PassportService {
     }
 
     public List<Passport> findExpired() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.YEAR, -PASSPORT_VALIDITY_PERIOD);
-        return repository.findExpired(calendar);
+        Calendar calendarNow = Calendar.getInstance();
+        return repository.findExpired(calendarNow);
     }
 
+    /**
+     *
+     * @return список всех паспортов, которые необходимо заменить
+     * через период PASSPORT_TO_CHANGE_PERIOD = 3 месяца
+     */
     public List<Passport> findReplaced() {
-        Calendar expired = Calendar.getInstance();
         Calendar replaced = Calendar.getInstance();
-        expired.add(Calendar.YEAR, -PASSPORT_VALIDITY_PERIOD);
         replaced.add(Calendar.MONTH, PASSPORT_TO_CHANGE_PERIOD);
-        return repository.findReplaced(expired, replaced);
+        return repository.findReplaced(replaced);
     }
 
 
