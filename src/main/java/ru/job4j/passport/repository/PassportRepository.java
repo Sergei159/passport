@@ -9,6 +9,7 @@ import ru.job4j.passport.model.Passport;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PassportRepository
@@ -23,7 +24,7 @@ public interface PassportRepository
                                        @Param("replacedDate") Calendar replacedDate);
 
     @Query("from Passport p where p.series = :series and p.number =:number")
-    public List<Passport> findBySeriesAndNumber(
+    Optional<Passport> findBySeriesAndNumber(
             @Param("series") int series,
             @Param("number") int number);
 }

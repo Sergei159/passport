@@ -65,10 +65,13 @@ public class PassportController {
     @GetMapping("/find/{series}-{number}")
     public ResponseEntity<List<Passport>> findSeries(@PathVariable int series,
                                                      @PathVariable int number) {
-        return new ResponseEntity<>(
-                passportService.findBySeriesAndNumber(series, number),
-                HttpStatus.OK
-        );
+        Optional<Passport> optPassport
+                = passportService.findBySeriesAndNumber(series, number);
+        if (optPassport.isPresent()) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/unavailable")

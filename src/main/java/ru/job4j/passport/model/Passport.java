@@ -16,8 +16,6 @@ import java.util.Objects;
 public class Passport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "Id must not be null",
-            groups = {Operation.OnUpdate.class, Operation.OnDelete.class})
     private int id;
 
     @Min(value = 1000,

@@ -6,6 +6,7 @@ import ru.job4j.passport.repository.PassportRepository;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -21,10 +22,21 @@ public class PassportService {
     }
 
     public Passport save(Passport passport) {
+        Optional<Passport> optPassport = findBySeriesAndNumber(
+                        passport.getSeries(),
+                        passport.getNumber());
+        if (optPassport.isPresent()) {
+            throw new IllegalArgumentException("Passport already exists");
+        }
         return repository.save(passport);
     }
 
     public void deleteById(int id) {
+        Optional<Passport> optPassport = findById(id);
+        if (optPassport.isEmpty()) {
+            throw new NoSuchElementException(
+                    "Passport with this id doesn't exist");
+        }
         repository.deleteById(id);
     }
 
@@ -36,7 +48,7 @@ public class PassportService {
         return (List<Passport>) repository.findAll();
     }
 
-    public List<Passport> findBySeriesAndNumber(int series, int number) {
+    public Optional<Passport> findBySeriesAndNumber(int series, int number) {
         return repository.findBySeriesAndNumber(series, number);
     }
 
