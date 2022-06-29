@@ -19,8 +19,10 @@ public interface PassportRepository
     @Query("from Passport p where p.expired >= :calendarNow")
     public List<Passport> findExpired(@Param("calendarNow") Calendar calendarNow);
 
-    @Query("from Passport p where p.expired <= :replacedDate")
-    public List<Passport> findReplaced(@Param("replacedDate") Calendar replacedDate);
+    @Query("from Passport p where p.expired between :calendarNow and :replacedDate")
+    public List<Passport> findReplaced(
+            @Param("calendarNow") Calendar calendarNow,
+            @Param("replacedDate") Calendar replacedDate);
 
     @Query("from Passport p where p.series = :series and p.number =:number")
     Optional<Passport> findBySeriesAndNumber(

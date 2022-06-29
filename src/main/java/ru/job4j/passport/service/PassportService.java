@@ -73,9 +73,10 @@ public class PassportService {
      * через период PASSPORT_TO_CHANGE_PERIOD = 3 месяца
      */
     public List<Passport> findReplaced() {
+        Calendar calendarNow = Calendar.getInstance();
         Calendar replaced = Calendar.getInstance();
         replaced.add(Calendar.MONTH, PASSPORT_TO_CHANGE_PERIOD);
-        return repository.findReplaced(replaced);
+        return repository.findReplaced(calendarNow, replaced);
     }
 
 
